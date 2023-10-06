@@ -9,6 +9,7 @@ export default function PrivateRoute() {
   const [auth, setAuth] = useAuth();
 
   useEffect(() => {
+<<<<<<< HEAD
     const AuthCheck = async () => {
       console.log(auth.token);
       const res = await axios.get(
@@ -18,9 +19,27 @@ export default function PrivateRoute() {
         setOk(true);
       } else {
         setOk(false);
+=======
+    const authCheck = async () => {
+      // console.log(auth.token);
+      // const res = await axios.get(
+      //   "http://172.16.163.41:8080/api/v1/employee/salarylist"
+      // );
+      // if (res.status === 200) {
+      //   setOk(true);
+      // } else {
+      //   setOk(false);
+      // }
+
+      const data = localStorage.getItem('auth')
+      if(data){
+        setOk(true)
+      }else{
+        setOk(false)
+>>>>>>> 85b6d7429e8e9d31501df1cf77f52597ea7ed163
       }
     };
-    if (auth?.token) AuthCheck();
+    if (auth?.token) authCheck();
   }, [auth?.token]);
-  return ok ? <Outlet /> : <Spinner />;
+  return ok ? <Outlet /> : <Spinner path='' />;
 }

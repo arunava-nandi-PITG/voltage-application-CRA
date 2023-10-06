@@ -1,7 +1,6 @@
 {
   "name": "voltage-application",
   "private": true,
-  "homepage": "http://localhost:9090/voltage",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

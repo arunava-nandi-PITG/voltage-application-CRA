@@ -24,6 +24,9 @@ import { useAuth } from "../../context/auth";
 import { Modal } from "react-bootstrap";
 
 const Dashboard = () => {
+
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
+
   //define useRef() as a const variable.
   const idProductRef = useRef();
 
@@ -46,7 +49,7 @@ const Dashboard = () => {
 
   const loadUsers = async () => {
     const result = await axios.get(
-      "http://172.16.163.41:8080/api/v1/employee/salarylist",
+      `${baseURL}/employee/salarylist`,
       {
         headers: {
           Authorization: auth?.token,
@@ -69,7 +72,11 @@ const Dashboard = () => {
   const handleDeleteEmployee = async () => {
     setUsers(users.filter((u) => u.id !== idProductRef.current));
     await axios.delete(
+<<<<<<< HEAD
       `http://172.16.163.41:8080/api/v1/employee/deletesalary/${idProductRef.current}`
+=======
+      `${baseURL}/employee/deletesalary/${idProductRef.current}`
+>>>>>>> 85b6d7429e8e9d31501df1cf77f52597ea7ed163
     );
     loadUsers();
     setShow(false);
@@ -78,7 +85,7 @@ const Dashboard = () => {
   const fetchActualSalary = async (id) => {
     try {
       const response = await axios.get(
-        `http://172.16.163.41:8080/api/v1/employee/getsalary/${id}`
+        `${baseURL}/employee/getsalary/${id}`
       );
       console.log(response.data.salary);
       return response.data.salary;

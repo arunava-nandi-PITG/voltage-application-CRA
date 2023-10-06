@@ -14,6 +14,8 @@ import Layout from "../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 
 const AddUser = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
+
   const navigate = useNavigate();
   const [auth, setAuth] = useAuth();
   const [employee, setEmployee] = useState({
@@ -30,7 +32,7 @@ const AddUser = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.post(
-      "http://172.16.163.41:8080/api/v1/employee/savesalary",
+      `${baseURL}/employee/savesalary`,
       employee,
       {
         headers: {
@@ -38,63 +40,80 @@ const AddUser = () => {
         },
       }
     );
-    navigate("/dashboard");
+    navigate("/dashboard/user");
   };
 
   return (
     <Layout>
-      <Stack alignItems="center" style={{ marginTop: "20px" }}>
+      <Stack
+        alignItems='center'
+        style={{ marginTop: "20px" }}
+      >
         <Card sx={{ minWidth: 20, maxWidth: 500 }}>
-          <CardHeader title="Add Employee" style={{ marginLeft: "15vh" }} />
+          <CardHeader
+            title='Add Employee'
+            style={{ marginLeft: "15vh" }}
+          />
           <Divider />
           <CardContent>
-            <form autoComplete="off" onSubmit={(e) => onSubmit(e)}>
+            <form
+              autoComplete='off'
+              onSubmit={(e) => onSubmit(e)}
+            >
               <TextField
-                label="Name"
+                label='Name'
                 required
-                variant="outlined"
-                color="secondary"
+                variant='outlined'
+                color='secondary'
                 // type="text"
                 sx={{ mb: 3 }}
                 fullWidth
                 value={name}
                 onChange={(e) => onInputChange(e)}
-                name="name"
+                name='name'
               />
               <TextField
-                label="Designation"
+                label='Designation'
                 required
-                variant="outlined"
-                color="secondary"
-                type="text"
+                variant='outlined'
+                color='secondary'
+                type='text'
                 value={designation}
                 fullWidth
                 sx={{ mb: 3 }}
                 onChange={(e) => onInputChange(e)}
-                name="designation"
+                name='designation'
               />
               <TextField
-                label="Salary"
+                label='Salary'
                 required
-                variant="outlined"
-                color="secondary"
-                type="number"
+                variant='outlined'
+                color='secondary'
+                type='number'
                 value={salary}
                 fullWidth
                 sx={{ mb: 3 }}
                 onChange={(e) => onInputChange(e)}
-                name="salary"
+                name='salary'
               />
-              <Stack spacing={2} direction="row" justifyContent="center">
-                <Button variant="outlined" color="secondary" type="submit">
+              <Stack
+                spacing={2}
+                direction='row'
+                justifyContent='center'
+              >
+                <Button
+                  variant='outlined'
+                  color='secondary'
+                  type='submit'
+                >
                   Add
                 </Button>
                 <Button
-                  variant="outlined"
-                  color="error"
-                  type="button"
+                  variant='outlined'
+                  color='error'
+                  type='button'
                   component={Link}
-                  to="/dashboard"
+                  to='/dashboard/user'
                 >
                   Cancel
                 </Button>

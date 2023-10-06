@@ -15,6 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Register = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
+  
   const navigate = useNavigate();
 
   const [userName, setUserName] = useState("");
@@ -28,7 +30,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://172.16.163.41:8080/api/v1/auth/register",
+        `${baseURL}/auth/register`,
         { userName, email, phoneNumber, password, role }
       );
       if (res.status === 201) {

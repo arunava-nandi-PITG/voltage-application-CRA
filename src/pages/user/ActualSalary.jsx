@@ -15,6 +15,8 @@ import Layout from "../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 
 const ActualSalary = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
+
   const [auth, setAuth] = useAuth();
   const [employee, setEmployee] = useState({
     name: "",
@@ -32,7 +34,7 @@ const ActualSalary = () => {
 
   const loadUser = async () => {
     const result = await axios.get(
-      `http://172.16.163.41:8080/api/v1/employee/getsalary/${id}`,
+      `${baseURL}/employee/getsalary/${id}`,
       {
         headers: {
           Authorization: auth?.token,
@@ -69,7 +71,7 @@ const ActualSalary = () => {
           <Stack alignItems="center">
             <Button
               component={Link}
-              to="/dashboard"
+              to="/dashboard/user"
               variant="outlined"
               color="primary"
               style={{ marginBottom: "2px" }}
