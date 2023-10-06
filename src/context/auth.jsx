@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
   axios.defaults.headers.common["Authorization"] = auth?.token;
 
   useEffect(() => {
-    const data = localStorage.getItem("token");
+    const data = localStorage.getItem("auth");
     if (data) {
       const parseData = JSON.parse(data);
       setAuth({
@@ -22,7 +22,6 @@ const AuthProvider = ({ children }) => {
         token: parseData.token,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

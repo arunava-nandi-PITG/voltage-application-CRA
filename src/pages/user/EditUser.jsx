@@ -15,6 +15,8 @@ import Layout from "../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 
 const EditUser = () => {
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
+
   const navigate = useNavigate();
   const [auth, setAuth] = useAuth();
   const [employee, setEmployee] = useState({
@@ -37,7 +39,7 @@ const EditUser = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(
-      `http://172.16.163.41:8080/api/v1/employee/updatesalary/${id}`,
+      `${BaseURL}/employee/updatesalary/${id}`,
       employee,
       {
         headers: {
@@ -45,11 +47,11 @@ const EditUser = () => {
         },
       }
     );
-    navigate("/dashboard");
+    navigate("/dashboard/user");
   };
   const loadUser = async () => {
     const result = await axios.get(
-      `http://172.16.163.41:8080/api/v1/employee/salary/${id}`,
+      `${baseURL}/employee/salary/${id}`,
       {
         headers: {
           Authorization: auth?.token,
@@ -111,7 +113,7 @@ const EditUser = () => {
                   color="error"
                   type="button"
                   component={Link}
-                  to="/dashboard"
+                  to="/dashboard/user"
                 >
                   Cancel
                 </Button>

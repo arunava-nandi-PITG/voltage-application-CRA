@@ -15,6 +15,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 
 const Login = () => {
+
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -27,7 +29,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://172.16.163.41:8080/api/v1/auth/login",
+        `${baseURL}/auth/login`,
         { userName, password }
       );
       if (res.status === 200) {
@@ -37,7 +39,7 @@ const Login = () => {
           user: res.data.user,
           token: `Bearer ${res.data.token}`,
         });
-        localStorage.setItem("token", JSON.stringify(`Bearer ${res.data.token}`));
+        localStorage.setItem("auth", JSON.stringify(res.data));
         navigate(location.state || "/");
       } else {
         toast.error("Something went wrong");
@@ -47,50 +49,67 @@ const Login = () => {
     }
   };
   return (
-    <Layout title="Login">
-      <Stack alignItems="center" style={{ marginTop: "20px" }}>
+    <Layout title='Login'>
+      <Stack
+        alignItems='center'
+        style={{ marginTop: "20px" }}
+      >
         <Card sx={{ minWidth: 20, maxWidth: 500 }}>
-          <CardHeader title="LOGIN" style={{ marginLeft: "25vh" }} />
+          <CardHeader
+            title='LOGIN'
+            style={{ marginLeft: "25vh" }}
+          />
           <Divider />
           <CardContent>
-            <form autoComplete="off" onSubmit={handleSubmit}>
+            <form
+              autoComplete='off'
+              onSubmit={handleSubmit}
+            >
               <TextField
-                label="Username"
-                variant="outlined"
-                color="secondary"
+                label='Username'
+                variant='outlined'
+                color='secondary'
                 fullWidth
                 sx={{ mb: 3 }}
-                name="userName"
+                name='userName'
                 required
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
               />
 
               <TextField
-                label="Password"
-                variant="outlined"
-                color="secondary"
+                label='Password'
+                variant='outlined'
+                color='secondary'
                 sx={{ mb: 3 }}
                 fullWidth
-                name="password"
-                type="password"
+                name='password'
+                type='password'
                 required
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Stack spacing={2} direction="row" justifyContent="center">
-                <Button variant="outlined" color="secondary" type="submit">
+              <Stack
+                spacing={2}
+                direction='row'
+                justifyContent='center'
+              >
+                <Button
+                  variant='outlined'
+                  color='secondary'
+                  type='submit'
+                >
                   Login
                 </Button>
               </Stack>
             </form>
             <Stack>
-              <Stack direction="row">
-                <p>if you don't have account ? </p>
+              <Stack direction='row'>
+                <p>if you not have account ? </p>
                 <Button
-                  variant="text"
-                  color="primary"
+                  variant='text'
+                  color='primary'
                   component={Link}
-                  to="/register"
+                  to='/register'
                 >
                   Register
                 </Button>

@@ -19,19 +19,19 @@ import { tableCellClasses } from "@mui/material/TableCell";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import Dialog from "../../components/Dialog";
 import Layout from "../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
+import { Modal } from "react-bootstrap";
 
 const Dashboard = () => {
+
+  const baseURL = import.meta.env.VITE_BACKEND_BASE_URL;
+
   //define useRef() as a const variable.
   const idProductRef = useRef();
 
   const [users, setUsers] = useState([]);
-  const [dialog, setDialog] = useState({
-    message: "",
-    isLoading: false,
-  });
+  const [deleteId, setDeleteId] = useState("");
   const [showOriginalSalary, setShowOriginalSalary] = useState({});
   const [employeeSalaries, setEmployeeSalaries] = useState({});
   const pages = [5, 10, 25];
@@ -40,21 +40,16 @@ const Dashboard = () => {
   const [order, setOrder] = useState();
   const [orderBy, setOrderBy] = useState();
   const [auth, setAuth] = useAuth();
-
-  const handleDialog = (message, isLoading) => {
-    setDialog({
-      message,
-      isLoading,
-    });
-  };
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     loadUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadUsers = async () => {
     const result = await axios.get(
-      "http://172.16.163.41:8080/api/v1/employee/salarylist",
+      `${baseURL}/employee/salarylist`,
       {
         headers: {
           Authorization: auth?.token,
@@ -64,38 +59,29 @@ const Dashboard = () => {
     setUsers(result.data);
   };
 
-  const deleteUser = async (id) => {
-    handleDialog("Are you sure you want yo delete?", true);
-    idProductRef.current = id;
-    // await axios.delete(`http://172.16.163.41:8080/api/v1/employee/deletesalary/${id}`)
-    // loadUsers()
-  };
-  const areYouSureDelete = async (choose) => {
-    if (choose) {
-      setUsers(users.filter((u) => u.id !== idProductRef.current));
-      await axios.delete(
-        `http://172.16.163.41:8080/api/v1/employee/deletesalary/${idProductRef.current}`
-      );
-      loadUsers();
-      handleDialog("", false);
-      // not recommended
-      alert("User deleted successfully");
-    } else {
-      handleDialog("", false);
-    }
+  const handleClose = () => {
+    setShow(false);
   };
 
-  const toggleSalary = (id) => {
-    setShowOriginalSalary((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id],
-    }));
+  const handleClickDelete = (id) => {
+    setDeleteId(id);
+    setShow(true);
+    idProductRef.current = id;
+  };
+
+  const handleDeleteEmployee = async () => {
+    setUsers(users.filter((u) => u.id !== idProductRef.current));
+    await axios.delete(
+      `${baseURL}/employee/deletesalary/${idProductRef.current}`
+    );
+    loadUsers();
+    setShow(false);
   };
 
   const fetchActualSalary = async (id) => {
     try {
       const response = await axios.get(
-        `http://172.16.163.41:8080/api/v1/employee/getsalary/${id}`
+        `${baseURL}/employee/getsalary/${id}`
       );
       console.log(response.data.salary);
       return response.data.salary;
@@ -163,6 +149,20 @@ const Dashboard = () => {
   return (
     <>
       <Layout>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Employee</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Are you want to delete this employee ? </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleDeleteEmployee}>
+              OK
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <TableContainer component={Paper}>
           <Table
             sx={{ minWidth: 650 }}
@@ -225,6 +225,7 @@ const Dashboard = () => {
                         Show
                       </Button>
                       <Button
+                        
                         variant="outlined"
                         startIcon={<EditIcon />}
                         component={Link}
@@ -233,20 +234,16 @@ const Dashboard = () => {
                         Edit
                       </Button>
                       <Button
+                        
                         variant="outlined"
                         color="error"
                         startIcon={<DeleteIcon />}
-                        onClick={() => deleteUser(user.id)}
+                        onClick={() => handleClickDelete(user.id)}
                       >
                         Delete
                       </Button>
                     </Stack>
-                    {dialog.isLoading && (
-                      <Dialog
-                        onDialog={areYouSureDelete}
-                        message={dialog.message}
-                      />
-                    )}
+                  
                   </TableCell>
                 </TableRow>
               ))}
