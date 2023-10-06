@@ -39,7 +39,7 @@ const EditUser = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(
-      `${BaseURL}/employee/updatesalary/${id}`,
+      `${baseURL}/employee/updatesalary/${id}`,
       employee,
       {
         headers: {

@@ -42,12 +42,7 @@ const Login = () => {
           token: `Bearer ${res.data.token}`,
 
         });
-<<<<<<< HEAD
-        localStorage.setItem("token", JSON.stringify(`Bearer ${res.data.token}`));
-        localStorage.setItem("user", JSON.stringify(res.data.user))
-=======
         localStorage.setItem("auth", JSON.stringify(res.data));
->>>>>>> 85b6d7429e8e9d31501df1cf77f52597ea7ed163
         navigate(location.state || "/");
       }
       else {

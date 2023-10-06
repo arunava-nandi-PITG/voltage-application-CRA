@@ -5,14 +5,14 @@ import { useAuth } from "../../context/auth";
 const Header = () => {
   const [auth, setAuth] = useAuth();
 
-  const handleLogout =()=>{
-      setAuth({
-        ...auth,
-        user : null,
-        token : ""
-      })
-      localStorage.removeItem('token')
-      toast.success('Logout Successfully ')
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: ""
+    })
+    localStorage.removeItem('auth')
+    toast.success('Logout Successfully ')
   }
 
   return (
@@ -71,20 +71,10 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                <li className="nav-item">
-                    <NavLink to="/dashboard" className="nav-link">
-                      Dashboard
-                    </NavLink>
-                  </li>
                   <li className="nav-item">
                     <NavLink to="/addEmployee" className="nav-link">
                       Add User
                     </NavLink>
-                    <li className="nav-item">
-                      <NavLink to="/profile" className="nav-link">
-                        Profile
-                      </NavLink>
-                    </li>
                   </li>
                   <li className='nav-item dropdown'>
                     <NavLink
@@ -99,11 +89,10 @@ const Header = () => {
                     <ul className='dropdown-menu'>
                       <li>
                         <NavLink
-                          to={`/dashboard/${
-                            auth?.user?.roles[0] === "ROLE_ADMIN"
+                          to={`/dashboard/${auth?.user?.roles[0] === "ROLE_ADMIN"
                               ? "admin"
                               : "user"
-                          }`}
+                            }`}
                           className='dropdown-item'
                         >
                           DashBoard

@@ -72,11 +72,7 @@ const Dashboard = () => {
   const handleDeleteEmployee = async () => {
     setUsers(users.filter((u) => u.id !== idProductRef.current));
     await axios.delete(
-<<<<<<< HEAD
-      `http://172.16.163.41:8080/api/v1/employee/deletesalary/${idProductRef.current}`
-=======
       `${baseURL}/employee/deletesalary/${idProductRef.current}`
->>>>>>> 85b6d7429e8e9d31501df1cf77f52597ea7ed163
     );
     loadUsers();
     setShow(false);
