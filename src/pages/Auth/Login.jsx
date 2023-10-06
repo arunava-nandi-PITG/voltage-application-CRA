@@ -19,9 +19,10 @@ const Login = () => {
   const location = useLocation();
 
   const [auth, setAuth] = useAuth();
-
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,18 +33,23 @@ const Login = () => {
       );
       if (res.status === 200) {
         toast.success("login successful");
+
         setAuth({
           ...auth,
           user: res.data.user,
           token: `Bearer ${res.data.token}`,
+
         });
         localStorage.setItem("token", JSON.stringify(`Bearer ${res.data.token}`));
+        localStorage.setItem("user", JSON.stringify(res.data.user))
         navigate(location.state || "/");
-      } else {
-        toast.error("Something went wrong");
+      }
+      else {
+        console.log(res.data);
+        toast.error("Internal server error");
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Invalid Username and Password");
     }
   };
   return (

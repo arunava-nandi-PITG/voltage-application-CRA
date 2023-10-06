@@ -5,14 +5,14 @@ import { useAuth } from "../../context/auth";
 const Header = () => {
   const [auth, setAuth] = useAuth();
 
-  const handleLogout =()=>{
-      setAuth({
-        ...auth,
-        user : null,
-        token : ""
-      })
-      localStorage.removeItem('token')
-      toast.success('Logout Successfully ')
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: ""
+    })
+    localStorage.removeItem('token')
+    toast.success('Logout Successfully ')
   }
 
   return (
@@ -56,7 +56,7 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                <li className="nav-item">
+                  <li className="nav-item">
                     <NavLink to="/dashboard" className="nav-link">
                       Dashboard
                     </NavLink>
@@ -65,6 +65,11 @@ const Header = () => {
                     <NavLink to="/addEmployee" className="nav-link">
                       Add User
                     </NavLink>
+                    <li className="nav-item">
+                      <NavLink to="/profile" className="nav-link">
+                        Profile
+                      </NavLink>
+                    </li>
                   </li>
                   <li className="nav-item">
                     <NavLink onClick={handleLogout} to='/login' className="nav-link">

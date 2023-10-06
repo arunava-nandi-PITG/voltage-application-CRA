@@ -12,7 +12,7 @@ export default function PrivateRoute() {
     const AuthCheck = async () => {
       console.log(auth.token);
       const res = await axios.get(
-        "http://172.16.163.41:8080/api/v1/employee/salarylist",
+        "http://172.16.163.41:8080/api/v1/authentication/userAuth",
       );
       if (res.status === 200) {
         setOk(true);

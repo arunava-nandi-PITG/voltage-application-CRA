@@ -10,6 +10,7 @@ import AddUser from "./pages/user/AddUser";
 import EditUser from "./pages/user/EditUser";
 import ActualSalary from "./pages/user/ActualSalary";
 import PrivateRoute from "./components/Routes/Private";
+import Profile from "./pages/user/profile";
 
 function App() {
   return (
@@ -28,9 +29,13 @@ function App() {
         <Route path="/actualSalary/:id" element={<PrivateRoute />}>
           <Route path="" element={<ActualSalary />} />
         </Route>
+        <Route path="/profile" element={<PrivateRoute />}>
+          <Route path="" element={<Profile />}></Route>
+        </Route>
         <Route path="/*" element={<PageNotFound />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
       </Routes>
     </>
   );

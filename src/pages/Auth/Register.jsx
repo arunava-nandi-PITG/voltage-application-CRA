@@ -31,14 +31,14 @@ const Register = () => {
         "http://172.16.163.41:8080/api/v1/auth/register",
         { userName, email, phoneNumber, password, role }
       );
-      if (res.status === 200) {
-        toast.success(res.data.message);
+      if (res.status === 201) {
+        toast.success("User Created");
         navigate("/login");
       } else {
-        toast.error(res.data.message);
+        toast.error("Something went wrong");
       }
     } catch (error) {
-      console.log(error);
+      
       toast.error("Something went wrong");
     }
   };
